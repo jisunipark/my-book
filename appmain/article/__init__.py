@@ -4,7 +4,7 @@
 
 import sqlite3
 
-comm=sqlite3.connect('myBook.db')
+conn=sqlite3.connect('myBook.db')
 cursor=conn.cursor()
 
 #SQL 'DROP TABLE article'
@@ -22,3 +22,8 @@ CREATE TABLE IF NOT EXISTS articles (
     picture TEXT
 )
 '''
+
+cursor.execute(SQL)
+
+cursor.close()
+conn.close()
