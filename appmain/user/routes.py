@@ -7,6 +7,9 @@ import jwt
 
 
 from appmain import app
+
+from appmain.utils import verifyJWT, getJWTContent
+
 user = Blueprint('user', __name__)
 
 @user.route('/signup')
@@ -98,4 +101,82 @@ def getAuth():
   conn.close()
 
   # 응답을 클라이언트에게 전달한다.
+  return make_response(jsonify(payload), 200)
+
+@user.route('/myinfo')
+def myPage():
+  return send_from_directory(app.root_path, 'templates/mypage.html')
+
+@user.route('/api/user/myinfo', methods=['POST'])
+def getMyInfo():
+  headerData = request.headers
+
+  authToken = headerData.get("authtoken")
+
+  payload = {"success": False}
+
+  if authToken: 
+    isValid = verifyJWT(authToken)
+
+    if isValid:
+      token = getJWTContent(authToken)
+      email = token["email"]
+      
+      conn = sqlite3.connect('myBook.db')
+      cursor = conn.cursor()
+
+      if cursor:
+        SQL = 'SELECT username FROM users WHERE email=?'
+        cursor.execute(SQL, (email,))
+        username = cursor.fetchone()[0]
+        cursor.close()
+      conn.close()
+
+      payload = {"success": True, "username": username}
+
+  return make_response(jsonify(payload), 200)
+
+@user.route('/api/user/update', methods=['POST'])
+def updateMyInfo():
+
+  headerData = request.headers
+  data = request.form
+
+  authToken = headerData.get("authtoken")
+  username = data.get("username")
+  passwd = data.get("passwd")
+
+  # print('updateMyInfo.authToken:', authToken)
+
+  payload = {"success": False}
+
+  if authToken:
+    isValid = verifyJWT(authToken)
+
+    if isValid:
+      token = getJWTContent(authToken)
+      email = token["email"]
+
+      hashedPW = bcrypt.hashpw(passwd.encode('utf-8'), bcrypt.gensalt())
+
+      conn = sqlite3.connect('myBook.db')
+      cursor = conn.cursor()
+
+      if cursor:
+        if passwd:
+          SQL = 'UPDATE users SET username=?, passwwd=? WHERE email=?'
+          cursor.execute(SQL, (username, hashedPW, email))
+        else:
+          SQL = 'UPDATE users SET username=? WHERE email=?'
+          cursor.execute(SQL, (username, email))
+        conn.commit()
+
+        #SQL = 'SELECT * FROM users'
+        #cursor.execute(SQL)
+        #rows = cursor.fetchall()
+        #for row in rows:
+        #     print(row)
+
+        cursor.close()
+      conn.close()
   return make_response(jsonify(payload), 200)
