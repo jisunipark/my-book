@@ -1,9 +1,11 @@
-# 예지님 
-# 유나님 / 지선
+
 import jwt
 import sqlite3
-
+import os
+import secrets
 from appmain import app
+from PIL import Image
+from flask import current_app
 
 # 로그인 토큰을 보낸 사용자가 현재 로그인한 사용자가 맞는지 확인한다.
 def verifyJWT(token):
@@ -40,3 +42,18 @@ def getJWTContent(token):
     return jwt.decode(token, app.config["SECRET_KEY"], algorithms="HS256")
   else:
     return None
+  
+  
+def savePic(pic, username):
+  randHex = secrets.token_hex(8)
+  _, fExt = os.path.splitext(pic.filename)
+  picFileName = randHex + fExt
+  picDir = os.path.join(current_app.static_folder, 'pics', username)
+  picPath = os.path.join(picDir, picFileName)
+  
+  os.makedirs(picDir, exist_ok=True)
+
+  with Image.open(pic) as image:
+      image.save(picPath)
+
+  return picFileName
