@@ -16,7 +16,7 @@
       <div class="col-6">
         <ul class="nav justify-content-end">
           <li class="nav-item">
-            <a class="nav-link" id="signup_link" href="/signup">Signup</a>
+            <a class="nav-link" id="signup_link" href="/signup">SignUp</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" id="signout_link" href="javascript:;" onclick="signOutHandler();">SignOut</a>
@@ -96,6 +96,15 @@
         console.log('[Error]signup:', error);
       });
     }
+  }
+
+  let submitButton = document.querySelector('#submit_button');
+  submitButton.addEventListener('click', onSubmitHandler);
+
+  function onCancelHandler() {
+    let url = '/home';
+    window.location.replace(url);
+  
   }
 
   let cancelButton = document.querySelector('#cancel_button');
