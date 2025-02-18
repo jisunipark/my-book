@@ -1,1 +1,104 @@
 <!-- 예지님 회원가입 -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+  <title>회원가입</title>
+</head>
+<body>
+  <div class="container">
+    <div class="row navbar bg-light align-items-center">
+      <div class="col-6">
+        <a class="nav-link" href="/home"><h4>Mybook</h4></a>
+      </div>
+      <div class="col-6">
+        <ul class="nav justify-content-end">
+          <li class="nav-item">
+            <a class="nav-link" id="signup_link" href="/signup">Signup</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="signout_link" href="javascript:;" onclick="signOutHandler();">SignOut</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="myinfo_link" href="/myinfo">MyInfo</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <form>
+          <div>
+            <label for="username_input" class="form-label">이름</label>
+            <input type="text" class="form-control" id="username_input">
+          </div>
+          <div class="mt-3">
+            <label for="email_input" class="form-label">이메일</label>
+            <input type="text" class="form-control" id="email_input">
+          </div>
+          <div class="mt-3">
+            <label for="password_input" class="form-label">패스워드</label>
+              <input type="password" class="form-control" id="password_input" placeholder="5자 이상">
+          </div>
+          <div class="mt-3">
+            <label for="password_confirm" class="form-label">패스워드 확인</label>
+              <input type="password" class="form-control" id="password_confirm">
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row justify-content-center mt-4">
+      <div class="col-4 text-center">
+        <button type="button" class="btn btn-primary" id="submit_button">가입</button>
+        <button type="button" class="btn btn-secondary" id="cancel_button">취소</button>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script type="text/javascript" src="/static/js/navbar.js"></script>
+<script>
+  // 문서의 입력 창 요소를 지정
+  const username = document.querySelector('#username_input');
+  const email = document.querySelector('#email_input');
+  const passwd = document.querySelector('#password_input');
+  const confirmPasswd = document.querySelector('#password_confirm');
+
+  // 비밀번호 유효성 확인
+  function checkPw() {
+    return (passwd.value.length >= 5) && (passwd.value === confirmPasswd.value);
+  }
+
+  // 입력값이 true이면 서버로 전달
+  function onSubmitHandler() {
+    let pwValid = checkPw();
+    if(pwValid){
+      // ForamData 클래스는 key-value의 쌍으로 저장하는 자바스크립트 클래스이다.
+      let formData = new FormData();
+
+      formData.set("username", username.value);
+      formData.set("email", email.value);
+      formData.set("passwd", passwd.value);
+
+      // fetch() 함수는 서버와 통신하기 위한 자바스크립트 표준함수
+      // feach('서버의 서비스 엔드포인트 URL', {전달하려는 요청})
+      fetch('/api/user/signup', {
+        method: 'POST',
+        body: formData
+      }).then((response) => {
+        let url = '/home';
+        window.location.replace(url);
+      }).catch((error) => {
+        console.log('[Error]signup:', error);
+      });
+    }
+  }
+
+  let cancelButton = document.querySelector('#cancel_button');
+  cancelButton.addEventListener('click', onCancelHandler);
+</script>
+</html>
