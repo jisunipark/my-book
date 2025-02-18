@@ -164,7 +164,7 @@ def updateMyInfo():
 
       if cursor:
         if passwd:
-          SQL = 'UPDATE users SET username=?, passwwd=? WHERE email=?'
+          SQL = 'UPDATE users SET username=?, passwd=? WHERE email=?'
           cursor.execute(SQL, (username, hashedPW, email))
         else:
           SQL = 'UPDATE users SET username=? WHERE email=?'
