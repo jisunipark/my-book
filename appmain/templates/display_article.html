@@ -1,1 +1,105 @@
-<!-- 유나님 / 지선 -->
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+    <title>상품 상세</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row navbar bg-light align-items-center">
+        <div class="col-6">
+          <a class="nav-link" href="/home"><h4>MyBook</h4></a>
+        </div>
+        <div class="col-6">
+          <ul class="nav justify-content-end">
+            <li class="nav-item">
+              <a class="nav-link" id="signup_link" href="/signup">SignUp</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="signin_link" href="/signin">SignIn</a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                id="signout_link"
+                href="javascript:;"
+                onclick="signOutHandler();"
+                >SignOut</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="myinfo_link" href="/myinfo">MyInfo</a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                id="create_article_link"
+                href="/create_article"
+                >상품등록</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mt-5">
+      <div class="row justify-content-center" id="article_title_div"></div>
+      <div class="row justify-content-center">
+        <div class="col-9">
+          <hr />
+        </div>
+      </div>
+      <div class="text-center" id="confirm_deletion_div"></div>
+    </div>
+
+    <div class="container mt-3">
+      <div class="row justify-content-center" id="article_desc_div"></div>
+    </div>
+
+    <div class="container mt-5">
+      <div class="row justify-content-center" id="article_image_div">
+        <div class="col-3" style="text-align: center">
+          <figure class="figure" id="article_image_fig"></figure>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mt-1">
+      <div class="row justify-content-center">
+        <div class="col-9">
+          <hr />
+        </div>
+      </div>
+      <div id="leave_reply_div">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-1"></div>
+          <div class="col-6">
+            <form>
+              <textarea
+                type="text"
+                class="form-control"
+                id="reply_input"
+                rows="2"
+              ></textarea>
+            </form>
+          </div>
+          <div class="col-2" id="leave_reply_button_div">
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="leave_reply_button"
+            >
+              댓글 등록
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="/static/js/navbar.js"></script>
+    <script type="text/javascript" src="/static/js/display_article.js"></script>
+  </body>
+</html>
