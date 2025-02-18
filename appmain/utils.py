@@ -13,7 +13,7 @@ def verifyJWT(token):
     try :
       decodedToken = jwt.decode(token, app.config["SECRET_KEY"], algorithms="HS256")
       if decodedToken:
-        conn = sqlite3.connec('myBook.db')
+        conn = sqlite3.connect('myBook.db')
         cursor = conn.cursor()
 
         if cursor :
