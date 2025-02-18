@@ -58,7 +58,7 @@
 <script type="text/javascript" src="/static/js/navbar.js"></script>
 <script>
   const username = document.querySelector('#username_input');
-  const passwd = document.querySelector('#passoword_input');
+  const passwd = document.querySelector('#password_input');
   const confirmPasswd = document.querySelector('#password_confirm');
 
   // 서버로부터 사용자에 대한 기존 정보를 받아와 입력 창에 기존 정보를 보여준다.
@@ -121,7 +121,7 @@
         body: formData
       }).then((response) => {
         let url = '/home';
-        window,location.replace(url);
+        window.location.replace(url);
       }).catch((error) => {
         console.log('[Error]signup:', error);
       });
